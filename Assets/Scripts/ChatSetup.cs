@@ -21,7 +21,6 @@ public class ChatSetup : MonoBehaviour,IChatClientListener {
 	Vector3 originalPosScrollPanel,originalPosChatBackground;
 	public GameObject scrollPanel;
 	public GameObject hiddenChatBoxButton;
-	
 	public int maximumNumberOfMsgs = 100;
 	// Use this for initialization
 	void Start () {
@@ -74,9 +73,17 @@ public class ChatSetup : MonoBehaviour,IChatClientListener {
 	
 	public void sendMessageClicked()
 	{
-		chatClient.PublishMessage( "Global", chatText.text.ToString() );
-		chatText.text = "";
-		chatText.interactable = false;
+		
+		if(!chatText.wasCanceled)
+		{
+			chatClient.PublishMessage( "Global", chatText.text.ToString() );
+			chatText.text = "";
+			chatText.interactable = false;
+		}
+		else
+		{
+			chatText.text = "";
+		}
 	}
 	
 	IEnumerator ShowChat(string[] senders, object[] messages)
@@ -206,6 +213,10 @@ public class ChatSetup : MonoBehaviour,IChatClientListener {
 		if(state == ChatState.ConnectedToFrontEnd)
 		{
 			hideConnectButtons();
+		}
+		if(state == ChatState.Disconnected)
+		{
+			connectButtons.SetActive(true);
 		}
 	}
 	public void OnGetMessages(string channelName, string[] senders, object[] messages)

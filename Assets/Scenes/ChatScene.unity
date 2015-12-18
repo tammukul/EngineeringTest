@@ -369,6 +369,18 @@ Prefab:
       propertyPath: m_CharacterLimit
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 11450010, guid: 32a14b4961f854659add869cc7d6019e, type: 2}
+      propertyPath: m_Navigation.m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11450010, guid: 32a14b4961f854659add869cc7d6019e, type: 2}
+      propertyPath: m_ContentType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11450010, guid: 32a14b4961f854659add869cc7d6019e, type: 2}
+      propertyPath: m_InputType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11466450, guid: 32a14b4961f854659add869cc7d6019e, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 32a14b4961f854659add869cc7d6019e, type: 2}
