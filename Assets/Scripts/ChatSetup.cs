@@ -26,6 +26,7 @@ public class ChatSetup : MonoBehaviour,IChatClientListener {
 	// Use this for initialization
 	void Start () {
 		
+		// Initialise things and get original position for UI Objects.
 		chatBlocks = new List<GameObject>();
 		originalPosScrollPanel = scrollPanel.GetComponent<RectTransform>().anchoredPosition3D;
 		originalPosChatBackground = chatBackground.GetComponent<RectTransform>().anchoredPosition3D;
