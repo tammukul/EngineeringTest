@@ -19,6 +19,7 @@ public class ChatSetup : MonoBehaviour,IChatClientListener {
 	public Text statusText;
 	public GameObject chatBackground;
 	Vector3 originalPosScrollPanel,originalPosChatBackground;
+	Vector3 originalPosChatTextPos;
 	public GameObject scrollPanel;
 	public GameObject hiddenChatBoxButton;
 	public int maximumNumberOfMsgs = 100;
@@ -28,7 +29,9 @@ public class ChatSetup : MonoBehaviour,IChatClientListener {
 		chatBlocks = new List<GameObject>();
 		originalPosScrollPanel = scrollPanel.GetComponent<RectTransform>().anchoredPosition3D;
 		originalPosChatBackground = chatBackground.GetComponent<RectTransform>().anchoredPosition3D;
+		originalPosChatTextPos = chatText.GetComponent<RectTransform>().anchoredPosition3D;
 		
+		// Setting the positions of the background and the chat window outside the screen... 
 		Vector3 movePositionTo = chatBackground.GetComponent<RectTransform>().anchoredPosition3D;
 		movePositionTo.x = -200.0f;
 		chatBackground.GetComponent<RectTransform>().anchoredPosition3D = movePositionTo;
@@ -36,6 +39,8 @@ public class ChatSetup : MonoBehaviour,IChatClientListener {
 		movePositionTo.y = -159.0f;
 		scrollPanel.GetComponent<RectTransform>().anchoredPosition3D = movePositionTo;
 		scrollPanel.GetComponent<ScrollRect>().vertical = false;
+		movePositionTo = originalPosChatTextPos - new Vector3(400.0f,0,0);
+		chatText.GetComponent<RectTransform>().anchoredPosition3D = movePositionTo;
 	}
 	
 	// Update is called once per frame
@@ -144,7 +149,7 @@ public class ChatSetup : MonoBehaviour,IChatClientListener {
 		tempChatBlock.GetComponent<RectTransform>().localScale = Vector3.one;
 		tempChatBlock.GetComponent<RectTransform>().anchoredPosition3D = Vector3.zero;
 
-		//Scrollable Chat Size
+		//Increase Scrollable Chat Size
 		if(chatBlocks.Count != maximumNumberOfMsgs)
 		{
 			Vector2 tempSize = scrollableChat.GetComponent<RectTransform>().sizeDelta;
@@ -164,6 +169,7 @@ public class ChatSetup : MonoBehaviour,IChatClientListener {
 		scrollPanel.GetComponent<ScrollRect>().vertical = true;
 		LeanTween.move(scrollPanel.GetComponent<RectTransform>(),originalPosScrollPanel,0.5f);
 		LeanTween.move(chatBackground.GetComponent<RectTransform>(),originalPosChatBackground,0.5f);
+		LeanTween.move(chatText.GetComponent<RectTransform>(),originalPosChatTextPos,0.5f);
 	}
 	
 	public void closeChat()
@@ -177,6 +183,10 @@ public class ChatSetup : MonoBehaviour,IChatClientListener {
 		movePositionTo = originalPosScrollPanel;
 		movePositionTo.y = -159.0f;
 		LeanTween.move(scrollPanel.GetComponent<RectTransform>(),movePositionTo,1.0f);
+		
+		movePositionTo = originalPosChatTextPos;
+		movePositionTo.x -= 400.0f;
+		LeanTween.move(chatText.GetComponent<RectTransform>(),movePositionTo,1.0f);
 	}
 
 
@@ -184,7 +194,7 @@ public class ChatSetup : MonoBehaviour,IChatClientListener {
 	// Listener Functions for the chat module
 	public void OnConnected()
     {
-		chatClient.Subscribe(new string[] {"Global"},10);
+		chatClient.Subscribe(new string[] {"Global"},3);
     }
 	
 	public void DebugReturn(ExitGames.Client.Photon.DebugLevel level, string message)
